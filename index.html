@@ -99,7 +99,8 @@
     
 #breakfast-page,   
 #lunch-page,
-#daily-menu-page{
+#daily-menu-page,
+#weekly-menu-page{
     display: none;
 }
 
@@ -131,6 +132,10 @@
 
         <button onclick="showDaily()">
                 Daily Menu
+        </button>
+
+        <button onclick="showWeekly()">
+                Weekly Menu
         </button>
 
     </div>
@@ -217,9 +222,21 @@
     <button onclick="downloadPDF()">Download PDF</button>  <!-- pressing generate show make the button available -->
 
     
+</div>
+
+    <div id="weekly-menu-page">
+        <div class = "header-card"><h1>Weekly Menu</h1></div>
+
+        <div id = "weekly-menu-result"> </div>
+        <button onclick = "WeeklyMenu()">Generate Weekly Menu</button>
+        
+
+    </div>
+
 
     
-</div>
+
+
     
 
 
@@ -348,6 +365,60 @@ const bf = [
         window.print();
     }
 
+    function RandomDistinct(n){
+
+    const randnums = new Set();
+
+    while (randnums.size < n) randnums.add(Math.floor(Math.random() * (n)));
+
+    return [...randnums];
+}
+
+    function WeeklyMenu(){
+
+        const days = [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+        ];  
+
+       const bf_indices = RandomDistinct(7);
+       const dry_indices = RandomDistinct(14);
+       const wet_indices = RandomDistinct(14);
+
+
+
+    let html = "";
+
+    for (let i = 0; i < 7; i++) {
+
+    html += `
+        <div class="day">
+            <h2>${days[i]}</h2>
+
+            <p><strong>Breakfast:</strong> ${bf[bf_indices[i]]}</p>
+
+            <p><strong>Lunch:</strong>
+                ${dry_items[dry_indices[2 * i]]}
+                +
+                ${wet_items[wet_indices[2 * i]]}
+            </p>
+
+            <p><strong>Dinner:</strong>
+                ${dry_items[dry_indices[2 * i + 1]]}
+                +
+                ${wet_items[wet_indices[2 * i + 1]]}
+            </p>
+        </div>
+    `;
+}
+document.getElementById("weekly-menu-result").innerHTML = html;
+ }
+
 
 </script>
     </div>
@@ -378,6 +449,12 @@ function showDaily(){
         .style.display = "block";
 }
 
+function showWeekly(){
+    document.getElementById("home-page").style.display = "none";
+    document.getElementById("weekly-menu-page")
+        .style.display = "block";
+}
+
 function goHome() {
 
     document.getElementById("breakfast-page")
@@ -394,6 +471,10 @@ function goHome() {
 
 
 }
+
+
+
+
 
 </script>
 </body>
