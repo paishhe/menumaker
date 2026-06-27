@@ -268,9 +268,6 @@
 ];
 
     const dry_items = [
-    "Soya tikki",
-    "Rajma tikki",
-    "Kala channa tikki",
     "Gobi matar",
     "Gobi aloo",
     "Gavar",
@@ -303,7 +300,6 @@ const bf = [
   "Dosa",
   "Idli",
   "Uttapam",
-  "Overnight soaked oats",
   "Sweet suji",
   "Scrambled egg on toast",
   "Millet upma",
@@ -377,50 +373,55 @@ const bf = [
     return [...randnums];
 }
 
-    function WeeklyMenu(){
+function WeeklyMenu() {
 
-        const days = [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"
-        ];  
+    const days = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+    ];
 
-       const bf_indices = RandomDistinct(7);
-       const dry_indices = RandomDistinct(14);
-       const wet_indices = RandomDistinct(14);
-
-
+    const bf_indices = RandomDistinct(7);
+    const dry_indices = RandomDistinct(14);
+    const wet_indices = RandomDistinct(14);
 
     let html = "";
 
     for (let i = 0; i < 7; i++) {
 
-    html += `
-        <div class="day">
-            <h2>${days[i]}</h2>
+        let breakfast = bf[bf_indices[i]];
+        let lunchDry = dry_items[dry_indices[2 * i]];
+        let lunchWet = wet_items[wet_indices[2 * i]];
+        let dinnerDry = dry_items[dry_indices[2 * i + 1]];
+        let dinnerWet = wet_items[wet_indices[2 * i + 1]];
 
-            <p><strong>Breakfast:</strong> ${bf[bf_indices[i]]}</p>
+        if (i === 1) breakfast = "Overnight oats";
+        if (i === 4) dinnerDry = "Misc. tikki";
+        if (i === 6) breakfast = "Omelette + Poi";
 
-            <p><strong>Lunch:</strong>
-                ${dry_items[dry_indices[2 * i]]}
-                +
-                ${wet_items[wet_indices[2 * i]]}
-            </p>
+        html += `
+            <div class="day">
+                <h2>${days[i]}</h2>
 
-            <p><strong>Dinner:</strong>
-                ${dry_items[dry_indices[2 * i + 1]]}
-                +
-                ${wet_items[wet_indices[2 * i + 1]]}
-            </p>
-        </div>
-    `;
+                <p><strong>Breakfast:</strong> ${breakfast}</p>
+
+                <p><strong>Lunch:</strong>
+                    ${lunchDry} + ${lunchWet}
+                </p>
+
+                <p><strong>Dinner:</strong>
+                    ${dinnerDry} + ${dinnerWet}
+                </p>
+            </div>
+        `;
+    }
+
+    document.getElementById("weekly-menu-result").innerHTML = html;
 }
-document.getElementById("weekly-menu-result").innerHTML = html;
- }
 
 
 </script>
